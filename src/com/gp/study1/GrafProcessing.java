@@ -16,34 +16,37 @@ public class GrafProcessing {
             System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column]);
             System.out.println();
             biggerArray[row][column] = array[row][column];
-            theLongestway = (theLongestway < array[row][column]) ? array[row][column] : theLongestway;
+            theLongestway = Math.max(theLongestway , array[row][column]);
         }
         System.out.println();
 
         for (column = 1; column < array.length; column++) {
             for (int row = 0; row < array.length; row++) {
-                if (row == 0) {
-                    int bigger = biggerArray[row][column - 1] > biggerArray[row + 1][column - 1] ? biggerArray[row][column - 1]
-                            : biggerArray[row + 1][column - 1];
-                    System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column] + bigger);
+
+                if (array[row][column] == 0){
+                    System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column]);
                     System.out.println();
-                    biggerArray[row][column] = array[row][column] + bigger;
-                } else if (row == array.length - 1) {
-                    int bigger = biggerArray[row][column - 1] > biggerArray[row - 1][column - 1] ? biggerArray[row][column - 1]
-                            : biggerArray[row - 1][column - 1];
-                    System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column] + bigger);
-                    System.out.println();
-                    biggerArray[row][column] = array[row][column] + bigger;
-                } else {
-                    int bigger = biggerArray[row][column - 1] > biggerArray[row - 1][column - 1] ? biggerArray[row][column - 1]
-                            : biggerArray[row - 1][column - 1];
-                    bigger = biggerArray[row][column - 1] > biggerArray[row + 1][column - 1] ? biggerArray[row][column - 1]
-                            : biggerArray[row + 1][column - 1];
+                    biggerArray[row][column] = array[row][column];
+                }
+                else if (row == 0) {
+                    int bigger = Math.max(biggerArray[row][column - 1], biggerArray[row + 1][column - 1]);
                     System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column] + bigger);
                     System.out.println();
                     biggerArray[row][column] = array[row][column] + bigger;
                 }
-                theLongestway = (theLongestway < biggerArray[row][column]) ? biggerArray[row][column] : theLongestway;
+                else if (row == array.length - 1) {
+                    int bigger = Math.max(biggerArray[row][column - 1], biggerArray[row - 1][column - 1]);
+                    System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column] + bigger);
+                    System.out.println();
+                    biggerArray[row][column] = array[row][column] + bigger;
+                } else {
+                    int bigger = Math.max(biggerArray[row][column - 1], biggerArray[row - 1][column - 1]);
+                    int bigger1 = Math.max(bigger, biggerArray[row + 1][column - 1]);
+                    System.out.printf("initialVertex -> [%d][%d] = %d", row, column, array[row][column] + bigger1);
+                    System.out.println();
+                    biggerArray[row][column] = array[row][column] + bigger1;
+                }
+                theLongestway = Math.max(theLongestway, biggerArray[row][column]);
             }
             System.out.println();
         }
